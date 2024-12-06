@@ -1,6 +1,7 @@
 #include "TextField.hpp"
 
-TextField::TextField(double x, double y) : Base(), isFocus(false) {
+TextField::TextField(double x, double y) : Base(), isFocus(false), textureFilePath("")
+{
     position = sf::Vector2f(x, y);
 
     inputText.setFont(font);
@@ -8,7 +9,19 @@ TextField::TextField(double x, double y) : Base(), isFocus(false) {
     inputText.setFillColor(sf::Color::Black);
     inputText.setPosition(x + 150, y + 40);
 
-    if (!texture.loadFromFile("./../assets/img/search-bar.png")) {
+    sprite.setPosition(position);    
+}
+
+TextField::TextField(double x, double y, const std::string &textureFilePath) : Base(), isFocus(false), textureFilePath(textureFilePath), disBetSprTexX(0), disBetSprTexY(0)
+{
+    position = sf::Vector2f(x, y);
+
+    inputText.setFont(font);
+    inputText.setCharacterSize(30);
+    inputText.setFillColor(sf::Color::Black);
+    inputText.setPosition(x + disBetSprTexX, y + disBetSprTexX);
+
+    if (!texture.loadFromFile(textureFilePath)) {
         std::cout << "Can't load texture\n";
         exit(1);
     }
@@ -48,7 +61,8 @@ void TextField::update() {
 }
 
 void TextField::render(sf::RenderWindow& window) {
-    window.draw(sprite);
+    if (!textureFilePath.empty()) 
+        window.draw(sprite);
     window.draw(inputText);
 }
 
@@ -56,6 +70,28 @@ const std::string& TextField::getText() const {
     return userInput;
 }
 
+void TextField::setText(const std::string& text) {
+    userInput = text;
+    inputText.setString(userInput);
+}
+
 void TextField::setExclusionArea(const sf::FloatRect& area) {
     exclusionArea = area;
+}
+
+void TextField::loadTextureFromFile(const std::string &filePath)
+{
+    textureFilePath = filePath;
+    if (!texture.loadFromFile(textureFilePath)) {
+        std::cout << "Can't load texture\n";
+        exit(1);
+    }
+    sprite.setTexture(texture);   
+}
+
+void TextField::setDisBetSprTex(double disBetSprTexX, double disBetSprTexY)
+{
+    this->disBetSprTexX = disBetSprTexX;
+    this->disBetSprTexY = disBetSprTexY;
+    inputText.setPosition(position.x + disBetSprTexX, position.y + disBetSprTexY);
 }

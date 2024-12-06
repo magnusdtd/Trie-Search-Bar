@@ -1,6 +1,10 @@
 #include "app.hpp"
 
-App::App() : window(sf::VideoMode(1200, 800), "Autocomplete"), searchBar(new SearchBar(129, 155)), resultTab(new ResultTab(172, 305)), settingTab(new SettingTab(982, 187, 65)) {
+App::App() : 
+    window(sf::VideoMode(1200, 800), "Autocomplete"), 
+    searchBar(new SearchBar(129, 155)), 
+    resultTab(new ResultTab(172, 305)), 
+    settingTab(new SettingTab(982, 187, 65)) {
     std::cout << "Load data successfully!\n";
 }
 
@@ -37,6 +41,7 @@ void App::update() {
     searchBar->update();
     resultTab->setUserInput(searchBar->getText());
     resultTab->setResult(searchBar->getSuggestions());
+    settingTab->update();
 }
 
 void App::render() {

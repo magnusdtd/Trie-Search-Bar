@@ -1,9 +1,11 @@
 #include "SearchBar.hpp"
 
 SearchBar::SearchBar(double x, double y) : textField(new TextField(x, y)), trie(new Trie) {
+    textField->loadTextureFromFile("./../assets/img/search-bar.png");
     trie->readDataFromFile("./../data/words.txt");
     trie->setLimit(100);
     textField->setExclusionArea(sf::FloatRect(982, 187, 65, 65));
+    textField->setDisBetSprTex(150, 40);
 }
 
 SearchBar::~SearchBar() {
