@@ -1,11 +1,12 @@
 #include "app.hpp"
-#include <iostream>
 
 App::App() : window(sf::VideoMode(1200, 800), "Autocomplete"), textField(new TextField(129, 155)), trie(new Trie()), resultTab(new ResultTab(172, 305)), settingTab(new SettingTab(982, 187, 65)) {
     trie->readDataFromFile("./../data/words.txt");
     trie->setLimit(5);
     std::cout << "Load data successfully!\n";
     assert(trie != nullptr);
+
+    textField->setExclusionArea(sf::FloatRect(982, 187, 65, 65));
 }
 
 App::~App() {
@@ -36,7 +37,8 @@ void App::processEvents() {
         if (event.type == sf::Event::TextEntered) {
             handleTextEntered(event);
         }
-
+        
+        textField->handleEvent(event);
         settingTab->handleEvent(event);
     }
 }
