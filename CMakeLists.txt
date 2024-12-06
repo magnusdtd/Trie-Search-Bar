@@ -26,6 +26,8 @@ add_executable(TrieSearchBar
     src/view/SettingTab.cpp
     src/view/Button.hpp
     src/view/Button.cpp
+    src/view/SearchBar.hpp
+    src/view/SearchBar.cpp
     src/controller/app.hpp
     src/controller/app.cpp
 )
