@@ -29,6 +29,7 @@ void App::processEvents() {
 
         searchBar->handleEvent(event);
         settingTab->handleEvent(event);
+        resultTab->handleEvent(event);
     }
 }
 

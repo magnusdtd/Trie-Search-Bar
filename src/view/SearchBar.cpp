@@ -2,7 +2,7 @@
 
 SearchBar::SearchBar(double x, double y) : textField(new TextField(x, y)), trie(new Trie) {
     trie->readDataFromFile("./../data/words.txt");
-    trie->setLimit(5);
+    trie->setLimit(100);
     textField->setExclusionArea(sf::FloatRect(982, 187, 65, 65));
 }
 
