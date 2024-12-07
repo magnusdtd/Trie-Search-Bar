@@ -12,14 +12,14 @@ TextField::TextField(double x, double y) : Base(), isFocus(false), textureFilePa
     sprite.setPosition(position);    
 }
 
-TextField::TextField(double x, double y, const std::string &textureFilePath) : Base(), isFocus(false), textureFilePath(textureFilePath), disBetSprTexX(0), disBetSprTexY(0)
+TextField::TextField(double x, double y, const std::string &textureFilePath) : Base(), isFocus(false), textureFilePath(textureFilePath)
 {
     position = sf::Vector2f(x, y);
 
     inputText.setFont(font);
     inputText.setCharacterSize(30);
     inputText.setFillColor(sf::Color::Black);
-    inputText.setPosition(x + disBetSprTexX, y + disBetSprTexX);
+    inputText.setPosition(x, y);
 
     if (!texture.loadFromFile(textureFilePath)) {
         std::cout << "Can't load texture\n";
@@ -91,7 +91,5 @@ void TextField::loadTextureFromFile(const std::string &filePath)
 
 void TextField::setDisBetSprTex(double disBetSprTexX, double disBetSprTexY)
 {
-    this->disBetSprTexX = disBetSprTexX;
-    this->disBetSprTexY = disBetSprTexY;
     inputText.setPosition(position.x + disBetSprTexX, position.y + disBetSprTexY);
 }

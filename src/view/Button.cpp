@@ -5,6 +5,7 @@ Button::Button(const sf::Vector2f& position, const sf::Vector2f& size, const std
     buttonShape.setSize(size);
     buttonShape.setFillColor(sf::Color::Blue);
 
+    buttonText.setFont(getFont());
     buttonText.setString(text);
     buttonText.setCharacterSize(24);
     buttonText.setFillColor(sf::Color::White);
@@ -35,4 +36,12 @@ void Button::render(sf::RenderWindow& window) {
         window.draw(buttonShape);
         window.draw(buttonText);
     }
+}
+
+void Button::setText(const std::string& text) {
+    buttonText.setString(text);
+    buttonText.setPosition(
+        buttonShape.getPosition().x + (buttonShape.getSize().x - buttonText.getLocalBounds().width) / 2,
+        buttonShape.getPosition().y + (buttonShape.getSize().y - buttonText.getLocalBounds().height) / 2
+    );
 }

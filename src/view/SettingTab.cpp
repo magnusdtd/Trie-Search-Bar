@@ -4,11 +4,14 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
     : button(new Button(sf::Vector2f(x, y), sf::Vector2f(sizeOfButton, sizeOfButton), "OK")),
       limitWordField(new TextField(x - 118, y + 188)),
       addWordField(new TextField(x - 118, y + 188 + 52)),
-      removeWordField(new TextField(x - 118, y + 188 + 52 * 2))
+      removeWordField(new TextField(x - 118, y + 188 + 52 * 2)),
+      algorithmDropdown(new DropdownBox(x - 118, y + 188 + 52 * 3, {"Trie", "SuffixAutomaton"})),  // Initialize the dropdown
+      currentAlgorithm(AlgorithmType::Trie)
 {
     position = sf::Vector2f(x - 379, y + 68);
 
     button->setIsHide(true);
+    algorithmDropdown->setIsHide(true);
 
     isHide = true;
 
@@ -22,6 +25,15 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
     button->setCallback([&]() -> void {
         std::cout << "Button of setting tab is pressed\n";
         isHide = !isHide;
+        algorithmDropdown->isHide = !algorithmDropdown->isHide;
+    });
+
+    algorithmDropdown->setCallback([&](const std::string& selected) -> void {
+        if (selected == "Trie") {
+            switchAlgorithm(AlgorithmType::Trie);
+        } else if (selected == "SuffixAutomaton") {
+            switchAlgorithm(AlgorithmType::SuffixAutomaton);
+        }
     });
 
     limitWordField->loadTextureFromFile("./../assets/img/text-box.png");
@@ -36,6 +48,8 @@ SettingTab::~SettingTab()
 {
     delete button;
     button = nullptr;
+    delete algorithmDropdown;
+    algorithmDropdown = nullptr;
     delete limitWordField;
     limitWordField = nullptr;
     delete addWordField;
@@ -51,11 +65,13 @@ void SettingTab::render(sf::RenderWindow &window) {
         limitWordField->render(window);
         addWordField->render(window);
         removeWordField->render(window);
+        algorithmDropdown->render(window);
     }
 }
 
 void SettingTab::handleEvent(const sf::Event& event) {
     button->handleEvent(event);
+    algorithmDropdown->handleEvent(event);
     limitWordField->handleEvent(event);
     addWordField->handleEvent(event);
     removeWordField->handleEvent(event);
@@ -68,20 +84,38 @@ void SettingTab::handleEvent(const sf::Event& event) {
         if (!limitWordText.empty() && limitWordField->getIsFocus()) {
             try {
                 int limit = std::stoi(limitWordText);
+                std::cout << "Set limit to " << limit << "\n";
+                // Call set limit function based on current algorithm
+                if (currentAlgorithm == AlgorithmType::Trie) {
+                    // Set limit for Trie
+                } else if (currentAlgorithm == AlgorithmType::SuffixAutomaton) {
+                    // Set limit for SuffixAutomaton
+                }
             } catch (...) {
                 std::cout << "limitWordText is not a number\n";
             }
-            std::cout << "Call set Limit function\n";
             limitWordField->setText("");
         }
 
         if (!addWordText.empty() && addWordField->getIsFocus()) {
-            std::cout << "Call add string function\n";
+            std::cout << "Add string: " << addWordText << "\n";
+            // Call add string function based on current algorithm
+            if (currentAlgorithm == AlgorithmType::Trie) {
+                // Add string to Trie
+            } else if (currentAlgorithm == AlgorithmType::SuffixAutomaton) {
+                // Add string to SuffixAutomaton
+            }
             addWordField->setText("");
         }
 
         if (!removeWordText.empty() && removeWordField->getIsFocus()) {
-            std::cout << "Call remove string function\n";
+            std::cout << "Remove string: " << removeWordText << "\n";
+            // Call remove string function based on current algorithm
+            if (currentAlgorithm == AlgorithmType::Trie) {
+                // Remove string from Trie
+            } else if (currentAlgorithm == AlgorithmType::SuffixAutomaton) {
+                // Remove string from SuffixAutomaton
+            }
             removeWordField->setText("");
         }
     }
@@ -94,7 +128,12 @@ void SettingTab::update()
     removeWordField->update();
 }
 
-void SettingTab::setCallback(std::function<void()> callback)
-{
-    this->button->setCallback(callback);
+void SettingTab::switchAlgorithm(AlgorithmType algorithm) {
+    currentAlgorithm = algorithm;
+    if (algorithm == AlgorithmType::Trie) {
+        std::cout << "Switched to Trie\n";
+    } else if (algorithm == AlgorithmType::SuffixAutomaton) {
+        std::cout << "Switched to SuffixAutomaton\n";
+    }
+    // Add more algorithms here if needed
 }

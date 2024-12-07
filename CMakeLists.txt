@@ -18,14 +18,16 @@ add_executable(TrieSearchBar
     src/model/trie.cpp
     src/view/base.hpp
     src/view/base.cpp
+    src/view/Button.hpp
+    src/view/Button.cpp
     src/view/TextField.hpp
     src/view/TextField.cpp    
     src/view/ResultTab.hpp
     src/view/ResultTab.cpp
     src/view/SettingTab.hpp
     src/view/SettingTab.cpp
-    src/view/Button.hpp
-    src/view/Button.cpp
+    src/view/DropdownBox.hpp
+    src/view/DropdownBox.cpp
     src/view/SearchBar.hpp
     src/view/SearchBar.cpp
     src/controller/app.hpp

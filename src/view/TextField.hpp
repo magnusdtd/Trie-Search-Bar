@@ -27,8 +27,6 @@ private:
     std::string userInput;
     sf::FloatRect exclusionArea;
     std::string textureFilePath;
-    double disBetSprTexX;
-    double disBetSprTexY;
 };
 
 #endif // TEXTFIELD_HPP

@@ -12,7 +12,9 @@ public:
     void setCallback(std::function<void()> callback);
     void handleEvent(const sf::Event& event);
     void render(sf::RenderWindow& window);
+    void setText(const std::string& text);
 
+    friend class DropdownBox;
 private:
     sf::RectangleShape buttonShape;
     sf::Text buttonText;
