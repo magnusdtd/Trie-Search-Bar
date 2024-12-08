@@ -68,6 +68,7 @@ void ResultTab::setResult(const std::vector<std::string> &result) {
 
 void ResultTab::setUserInput(const std::string &userInput) {
     this->userInput = userInput;
+    updateScrollBar();
 }
 
 void ResultTab::handleEvent(const sf::Event& event) {
@@ -94,12 +95,22 @@ void ResultTab::handleEvent(const sf::Event& event) {
         scrollOffset = std::max(scrollOffset, 0.f);
         scrollOffset = std::min(scrollOffset, static_cast<float>(result.size() * scrollStep - 300));
         updateScrollBar();
+    } else if (event.type == sf::Event::TextEntered) {
+        scrollOffset = 0;
     }
 }
 
 void ResultTab::updateScrollBar() {
-    float handleHeight = std::max(50.f, scrollBar.getGlobalBounds().height * (300.f / (result.size() * scrollStep)));
+    if (result.empty()) {
+        scrollBarHandle.setScale(1.f, 1.f); // Set a small scale for the handle
+        scrollBarHandle.setPosition(scrollBar.getPosition().x + 4, scrollBar.getPosition().y + 4); // Position it at the top
+        return;
+    }
+
+    float handleHeight = std::max(50.f, std::min(scrollBar.getGlobalBounds().height, scrollBar.getGlobalBounds().height * (300.f / (result.size() * scrollStep))));
     scrollBarHandle.setScale(1.f, handleHeight / scrollBarHandle.getTexture()->getSize().y);
     float handlePosition = (scrollOffset / (result.size() * scrollStep - 300)) * (scrollBar.getGlobalBounds().height - handleHeight);
+    handlePosition = std::max(handlePosition, 0.f);
+    handlePosition = std::min(handlePosition, scrollBar.getGlobalBounds().height - handleHeight);
     scrollBarHandle.setPosition(scrollBarHandle.getPosition().x, scrollBar.getPosition().y + handlePosition);
 }
