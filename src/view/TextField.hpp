@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include <functional>
 #include "Base.hpp"
 
 class TextField : public Base {
@@ -20,6 +21,7 @@ public:
     void loadTextureFromFile(const std::string& filePath);
     bool getIsFocus() { return isFocus; }
     void setDisBetSprTex(double disBetSprTexX, double disBetSprTexY);
+    friend class SettingTab;
 
 private:
     bool isFocus;

@@ -4,8 +4,11 @@ App::App() :
     window(sf::VideoMode(1200, 800), "Autocomplete"), 
     searchBar(new SearchBar(129, 155)), 
     resultTab(new ResultTab(172, 305)), 
-    settingTab(new SettingTab(982, 187, 65)) {
+    settingTab(new SettingTab(982, 187, 65)),
+    trie(new Trie()) {
     std::cout << "Load data successfully!\n";
+    trie->readDataFromFile("./../data/words.txt");
+    trie->setLimit(100);
 }
 
 App::~App() {
@@ -15,6 +18,8 @@ App::~App() {
     resultTab = nullptr;
     delete settingTab;
     settingTab = nullptr;
+    delete trie;
+    trie = nullptr;
 }
 
 void App::run() {
@@ -31,8 +36,8 @@ void App::processEvents() {
         if (event.type == sf::Event::Closed)
             window.close();
 
-        searchBar->handleEvent(event);
-        settingTab->handleEvent(event);
+        searchBar->handleEvent(event, trie);
+        settingTab->handleEvent(event, trie);
         resultTab->handleEvent(event);
     }
 }

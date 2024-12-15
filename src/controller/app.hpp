@@ -19,6 +19,7 @@ private:
     void render();
 
     sf::RenderWindow window;
+    Trie *trie;
     SearchBar *searchBar;
     ResultTab *resultTab;
     SettingTab *settingTab;

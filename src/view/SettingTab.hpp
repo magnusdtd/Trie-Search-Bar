@@ -5,11 +5,11 @@
 #include "Button.hpp"
 #include "TextField.hpp"
 #include "DropdownBox.hpp"
+#include "./../model/trie.hpp"
 
 enum class AlgorithmType {
     Trie,
-    SuffixAutomaton
-    // Add more algorithms here
+    DAWG
 };
 
 class SettingTab : public Base {
@@ -17,7 +17,7 @@ public:
     SettingTab(double x, double y, double sizeOfButton);
     ~SettingTab();
     void render(sf::RenderWindow& window) override;
-    void handleEvent(const sf::Event& event);
+    void handleEvent(const sf::Event& event, Trie* &trie);
     void update();
 
 private:

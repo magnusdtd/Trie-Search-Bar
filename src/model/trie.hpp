@@ -1,3 +1,6 @@
+#ifndef TRIE_HPP
+#define TRIE_HPP
+
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -51,3 +54,5 @@ public:
     void userSelected(const std::string& word);
 
 };
+
+#endif

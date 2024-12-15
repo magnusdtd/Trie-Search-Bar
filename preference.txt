@@ -2,3 +2,4 @@ vnoi
 https://stackoverflow.com/questions/22387586/measuring-execution-time-of-a-function-in-c
 https://cp-algorithms.com/string/suffix-automaton.html
 https://zepworks.com/posts/you-autocomplete-me/
+https://lemire.me/blog/2022/11/10/measuring-the-memory-usage-of-your-c-program/

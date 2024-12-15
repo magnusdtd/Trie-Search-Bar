@@ -5,7 +5,7 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
       limitWordField(new TextField(x - 118, y + 188)),
       addWordField(new TextField(x - 118, y + 188 + 52)),
       removeWordField(new TextField(x - 118, y + 188 + 52 * 2)),
-      algorithmDropdown(new DropdownBox(x - 118, y + 188 + 52 * 3, {"Trie", "SuffixAutomaton"})),  // Initialize the dropdown
+      algorithmDropdown(new DropdownBox(x - 118, y + 188 + 52 * 3, {"Trie", "DAWG"})),  // Initialize the dropdown
       currentAlgorithm(AlgorithmType::Trie)
 {
     position = sf::Vector2f(x - 379, y + 68);
@@ -31,8 +31,8 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
     algorithmDropdown->setCallback([&](const std::string& selected) -> void {
         if (selected == "Trie") {
             switchAlgorithm(AlgorithmType::Trie);
-        } else if (selected == "SuffixAutomaton") {
-            switchAlgorithm(AlgorithmType::SuffixAutomaton);
+        } else if (selected == "DAWG") {
+            switchAlgorithm(AlgorithmType::DAWG);
         }
     });
 
@@ -69,7 +69,7 @@ void SettingTab::render(sf::RenderWindow &window) {
     }
 }
 
-void SettingTab::handleEvent(const sf::Event& event) {
+void SettingTab::handleEvent(const sf::Event& event, Trie* &trie) {
     button->handleEvent(event);
     algorithmDropdown->handleEvent(event);
     limitWordField->handleEvent(event);
@@ -85,38 +85,26 @@ void SettingTab::handleEvent(const sf::Event& event) {
             try {
                 int limit = std::stoi(limitWordText);
                 std::cout << "Set limit to " << limit << "\n";
-                // Call set limit function based on current algorithm
-                if (currentAlgorithm == AlgorithmType::Trie) {
-                    // Set limit for Trie
-                } else if (currentAlgorithm == AlgorithmType::SuffixAutomaton) {
-                    // Set limit for SuffixAutomaton
-                }
+                trie->setLimit(limit);
+                limitWordField->setText(limitWordText);
+                limitWordField->userInput.clear();
             } catch (...) {
                 std::cout << "limitWordText is not a number\n";
             }
-            limitWordField->setText("");
         }
 
         if (!addWordText.empty() && addWordField->getIsFocus()) {
             std::cout << "Add string: " << addWordText << "\n";
-            // Call add string function based on current algorithm
-            if (currentAlgorithm == AlgorithmType::Trie) {
-                // Add string to Trie
-            } else if (currentAlgorithm == AlgorithmType::SuffixAutomaton) {
-                // Add string to SuffixAutomaton
-            }
-            addWordField->setText("");
+            trie->addString(addWordText);
+            addWordField->setText(addWordText);
+            addWordField->userInput.clear();
         }
 
         if (!removeWordText.empty() && removeWordField->getIsFocus()) {
             std::cout << "Remove string: " << removeWordText << "\n";
-            // Call remove string function based on current algorithm
-            if (currentAlgorithm == AlgorithmType::Trie) {
-                // Remove string from Trie
-            } else if (currentAlgorithm == AlgorithmType::SuffixAutomaton) {
-                // Remove string from SuffixAutomaton
-            }
-            removeWordField->setText("");
+            trie->deleteString(removeWordText);
+            removeWordField->setText(removeWordText);
+            removeWordField->userInput.clear();
         }
     }
 }
@@ -132,8 +120,8 @@ void SettingTab::switchAlgorithm(AlgorithmType algorithm) {
     currentAlgorithm = algorithm;
     if (algorithm == AlgorithmType::Trie) {
         std::cout << "Switched to Trie\n";
-    } else if (algorithm == AlgorithmType::SuffixAutomaton) {
-        std::cout << "Switched to SuffixAutomaton\n";
+    } else if (algorithm == AlgorithmType::DAWG) {
+        std::cout << "Switched to DAWG\n";
     }
     // Add more algorithms here if needed
 }

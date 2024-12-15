@@ -36,6 +36,10 @@ void TextField::handleInput(const sf::Event& event) {
             if (!userInput.empty()) {
                 userInput.pop_back();
             }
+        }
+        // Handle enter key
+        else if (event.text.unicode == '\r' || event.text.unicode == '\n') {
+            return;
         // Handle regular characters
         } else if (event.text.unicode < 128) { 
             userInput += static_cast<char>(event.text.unicode);
