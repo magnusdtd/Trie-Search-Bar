@@ -36,7 +36,14 @@ void SearchBar::updateSuggestions(Trie *&trie) {
     } else if (cache.find(userInput) != cache.end()) {
         suggestions = cache[userInput];
     } else {
+
+        auto startTime = std::chrono::high_resolution_clock::now();
         suggestions = trie->autoComplete(userInput);
+        auto endTime = std::chrono::high_resolution_clock::now();
+
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+        elapsedTime = duration.count();
+
         cache[userInput] = suggestions;
     }
 }

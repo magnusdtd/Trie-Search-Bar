@@ -14,6 +14,7 @@ find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 # Add the executable with WIN32 option to disable console window
 add_executable(TrieSearchBar
     src/main.cpp 
+    src/model/timer.hpp
     src/model/trie.hpp
     src/model/trie.cpp
     src/view/base.hpp

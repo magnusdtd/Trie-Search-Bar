@@ -12,6 +12,7 @@ public:
     void setResult(const std::vector<std::string>& result);
     void setUserInput(const std::string& userInput);
     void handleEvent(const sf::Event& event);
+    void update(double elapsedTime);
 
 private:
     std::vector<std::string> result;
@@ -24,6 +25,8 @@ private:
     float scrollOffset;
     float scrollStep;
     bool isScrolling;
+
+    sf::Text elapsedTime;
 
     void updateScrollBar();
 };

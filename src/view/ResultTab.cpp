@@ -31,10 +31,16 @@ ResultTab::ResultTab(double x, double y) : Base(), scrollOffset(0), isScrolling(
     scrollBarHandle.setPosition(position.x + 826, position.y + 20);
 
     scrollStep = 30;
+
+    elapsedTime.setPosition(400, 607);
+    elapsedTime.setFont(font);
+    elapsedTime.setFillColor(sf::Color::Blue);
+    elapsedTime.setCharacterSize(24);
 }
 
 void ResultTab::render(sf::RenderWindow &window) {
     window.draw(sprite);
+    window.draw(elapsedTime);
 
     if (userInput.empty()) {
         std::string initilizationText = "Enter your word";
@@ -98,6 +104,11 @@ void ResultTab::handleEvent(const sf::Event& event) {
     } else if (event.type == sf::Event::TextEntered) {
         scrollOffset = 0;
     }
+}
+
+void ResultTab::update(double elapsedTime)
+{
+    this->elapsedTime.setString(std::to_string(elapsedTime / 1000) + " seconds");
 }
 
 void ResultTab::updateScrollBar() {

@@ -17,6 +17,7 @@ public:
     void render(sf::RenderWindow& window);
     const std::string& getText() const;
     const std::vector<std::string>& getSuggestions() const;
+    double getElapsedTime() { return elapsedTime; }
 
 private:
     void handleTextEntered(const sf::Event& event, Trie *&trie);
@@ -26,6 +27,8 @@ private:
     std::vector<std::string> suggestions;
     std::unordered_map<std::string, std::vector<std::string>> cache;
     std::string userInput;
+
+    double elapsedTime;
 };
 
 #endif // SEARCHBAR_HPP

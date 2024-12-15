@@ -47,6 +47,8 @@ void App::update() {
     resultTab->setUserInput(searchBar->getText());
     resultTab->setResult(searchBar->getSuggestions());
     settingTab->update();
+    // std::cout << "Check elapsed time before update function of App " << searchBar->getElapsedTime() << " ms\n";
+    resultTab->update(searchBar->getElapsedTime());
 }
 
 void App::render() {
