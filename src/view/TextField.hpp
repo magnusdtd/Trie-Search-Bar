@@ -29,6 +29,7 @@ private:
     std::string userInput;
     sf::FloatRect exclusionArea;
     std::string textureFilePath;
+    size_t displayStartIndex;
 };
 
 #endif // TEXTFIELD_HPP

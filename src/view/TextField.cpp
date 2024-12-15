@@ -1,6 +1,6 @@
 #include "TextField.hpp"
 
-TextField::TextField(double x, double y) : Base(), isFocus(false), textureFilePath("")
+TextField::TextField(double x, double y) : Base(), isFocus(false), textureFilePath(""), displayStartIndex(0)
 {
     position = sf::Vector2f(x, y);
 
@@ -12,14 +12,14 @@ TextField::TextField(double x, double y) : Base(), isFocus(false), textureFilePa
     sprite.setPosition(position);    
 }
 
-TextField::TextField(double x, double y, const std::string &textureFilePath) : Base(), isFocus(false), textureFilePath(textureFilePath)
+TextField::TextField(double x, double y, const std::string &textureFilePath) : Base(), isFocus(false), textureFilePath(textureFilePath), displayStartIndex(0)
 {
     position = sf::Vector2f(x, y);
 
     inputText.setFont(font);
     inputText.setCharacterSize(30);
     inputText.setFillColor(sf::Color::Black);
-    inputText.setPosition(x, y);
+    inputText.setPosition(x + 25.f, y);
 
     if (!texture.loadFromFile(textureFilePath)) {
         std::cout << "Can't load texture\n";
@@ -35,6 +35,9 @@ void TextField::handleInput(const sf::Event& event) {
         if (event.text.unicode == '\b') { 
             if (!userInput.empty()) {
                 userInput.pop_back();
+                if (displayStartIndex > 0) {
+                    displayStartIndex--;
+                }
             }
         }
         // Handle enter key
@@ -43,6 +46,9 @@ void TextField::handleInput(const sf::Event& event) {
         // Handle regular characters
         } else if (event.text.unicode < 128) { 
             userInput += static_cast<char>(event.text.unicode);
+            if (inputText.getLocalBounds().width > sprite.getGlobalBounds().width - 25.f) {
+                displayStartIndex++;
+            }
         }
     }
 }
@@ -61,7 +67,12 @@ void TextField::handleEvent(const sf::Event& event) {
 }
 
 void TextField::update() {
-    inputText.setString(userInput);
+    // Ensure displayStartIndex is within the valid range
+    if (displayStartIndex > userInput.size()) {
+        displayStartIndex = userInput.size();
+    }
+    std::string displayText = userInput.substr(displayStartIndex);
+    inputText.setString(displayText);
 }
 
 void TextField::render(sf::RenderWindow& window) {
@@ -76,6 +87,7 @@ const std::string& TextField::getText() const {
 
 void TextField::setText(const std::string& text) {
     userInput = text;
+    displayStartIndex = 0; // Reset displayStartIndex when setting new text
     inputText.setString(userInput);
 }
 
