@@ -4,6 +4,7 @@ SearchBar::SearchBar(double x, double y) : textField(new TextField(x, y)) {
     textField->loadTextureFromFile("./../assets/img/search-bar.png");
     textField->setExclusionArea(sf::FloatRect(982, 187, 65, 65));
     textField->setDisBetSprTex(150, 40);
+    textField->setTextUpperBound(400.f);
 }
 
 SearchBar::~SearchBar() {
@@ -11,14 +12,14 @@ SearchBar::~SearchBar() {
     textField = nullptr;
 }
 
-void SearchBar::handleEvent(const sf::Event& event, Trie *&trie) {
+void SearchBar::handleEvent(const sf::Event& event, CompressedTrie *&trie) {
     textField->handleEvent(event);
     if (event.type == sf::Event::TextEntered) {
         handleTextEntered(event, trie);
     }
 }
 
-void SearchBar::handleTextEntered(const sf::Event& event, Trie *&trie) {
+void SearchBar::handleTextEntered(const sf::Event& event, CompressedTrie *&trie) {
     userInput = textField->getText();
 
     if (event.text.unicode == '\b' || (event.text.unicode >= 32 && event.text.unicode <= 126)) {
@@ -30,7 +31,7 @@ void SearchBar::handleTextEntered(const sf::Event& event, Trie *&trie) {
     }
 }
 
-void SearchBar::updateSuggestions(Trie *&trie) {
+void SearchBar::updateSuggestions(CompressedTrie *&trie) {
     if (userInput.empty()) {
         suggestions.clear();
     } else if (cache.find(userInput) != cache.end()) {
@@ -38,7 +39,7 @@ void SearchBar::updateSuggestions(Trie *&trie) {
     } else {
 
         auto startTime = std::chrono::high_resolution_clock::now();
-        suggestions = trie->autoComplete(userInput);
+        suggestions = trie->search(userInput);
         auto endTime = std::chrono::high_resolution_clock::now();
 
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);

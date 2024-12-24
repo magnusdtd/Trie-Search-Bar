@@ -21,6 +21,7 @@ public:
     void loadTextureFromFile(const std::string& filePath);
     bool getIsFocus() { return isFocus; }
     void setDisBetSprTex(double disBetSprTexX, double disBetSprTexY);
+    void setTextUpperBound(int textUpperBound) { this->textUpperBound = textUpperBound; }
     friend class SettingTab;
 
 private:
@@ -30,6 +31,7 @@ private:
     sf::FloatRect exclusionArea;
     std::string textureFilePath;
     size_t displayStartIndex;
+    size_t textUpperBound;
 };
 
 #endif // TEXTFIELD_HPP

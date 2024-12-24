@@ -6,13 +6,13 @@
 #include <vector>
 #include <unordered_map>
 #include "TextField.hpp"
-#include "./../model/trie.hpp"
+#include "./../model/CompressedTrie.hpp"
 
 class SearchBar {
 public:
     SearchBar(double x, double y);
     ~SearchBar();
-    void handleEvent(const sf::Event& event, Trie *&trie);
+    void handleEvent(const sf::Event& event, CompressedTrie *&trie);
     void update();
     void render(sf::RenderWindow& window);
     const std::string& getText() const;
@@ -20,8 +20,8 @@ public:
     double getElapsedTime() { return elapsedTime; }
 
 private:
-    void handleTextEntered(const sf::Event& event, Trie *&trie);
-    void updateSuggestions(Trie *&trie);
+    void handleTextEntered(const sf::Event& event, CompressedTrie *&trie);
+    void updateSuggestions(CompressedTrie *&trie);
 
     TextField *textField;
     std::vector<std::string> suggestions;

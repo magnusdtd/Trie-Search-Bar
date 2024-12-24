@@ -1,6 +1,6 @@
 #include "TextField.hpp"
 
-TextField::TextField(double x, double y) : Base(), isFocus(false), textureFilePath(""), displayStartIndex(0)
+TextField::TextField(double x, double y) : Base(), isFocus(false), textureFilePath(""), displayStartIndex(0), textUpperBound(25.f)
 {
     position = sf::Vector2f(x, y);
 
@@ -46,7 +46,7 @@ void TextField::handleInput(const sf::Event& event) {
         // Handle regular characters
         } else if (event.text.unicode < 128) { 
             userInput += static_cast<char>(event.text.unicode);
-            if (inputText.getLocalBounds().width > sprite.getGlobalBounds().width - 25.f) {
+            if (inputText.getLocalBounds().width > sprite.getGlobalBounds().width - textUpperBound) {
                 displayStartIndex++;
             }
         }
