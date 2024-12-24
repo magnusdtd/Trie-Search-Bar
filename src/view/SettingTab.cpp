@@ -5,13 +5,11 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
       limitWordField(new TextField(x - 118, y + 188)),
       addWordField(new TextField(x - 118, y + 188 + 52)),
       removeWordField(new TextField(x - 118, y + 188 + 52 * 2)),
-      algorithmDropdown(new DropdownBox(x - 118, y + 188 + 52 * 3, {"Trie", "DAWG"})),  // Initialize the dropdown
-      currentAlgorithm(AlgorithmType::Trie)
+      theme(new Theme("./../assets/img/theme.png", sf::Vector2f(x - 118 + 50, y + 188 + 52 * 3), sf::Vector2f(50.f, 50.f)))
 {
     position = sf::Vector2f(x - 379, y + 68);
 
     button->setIsHide(true);
-    algorithmDropdown->setIsHide(true);
 
     isHide = true;
 
@@ -25,15 +23,6 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
     button->setCallback([&]() -> void {
         std::cout << "Button of setting tab is pressed\n";
         isHide = !isHide;
-        algorithmDropdown->isHide = !algorithmDropdown->isHide;
-    });
-
-    algorithmDropdown->setCallback([&](const std::string& selected) -> void {
-        if (selected == "Trie") {
-            switchAlgorithm(AlgorithmType::Trie);
-        } else if (selected == "DAWG") {
-            switchAlgorithm(AlgorithmType::DAWG);
-        }
     });
 
     limitWordField->loadTextureFromFile("./../assets/img/text-box.png");
@@ -48,8 +37,8 @@ SettingTab::~SettingTab()
 {
     delete button;
     button = nullptr;
-    delete algorithmDropdown;
-    algorithmDropdown = nullptr;
+    delete theme;
+    theme = nullptr;
     delete limitWordField;
     limitWordField = nullptr;
     delete addWordField;
@@ -60,18 +49,18 @@ SettingTab::~SettingTab()
 
 void SettingTab::render(sf::RenderWindow &window) {
     button->render(window);
+    theme->render(window);
     if (!isHide) {
         window.draw(sprite);
         limitWordField->render(window);
         addWordField->render(window);
         removeWordField->render(window);
-        algorithmDropdown->render(window);
     }
 }
 
-void SettingTab::handleEvent(const sf::Event& event, Trie* &trie) {
+void SettingTab::handleEvent(const sf::Event& event, CompressedTrie* &trie) {
     button->handleEvent(event);
-    algorithmDropdown->handleEvent(event);
+    theme->handleEvent(event);
     limitWordField->handleEvent(event);
     addWordField->handleEvent(event);
     removeWordField->handleEvent(event);
@@ -85,7 +74,7 @@ void SettingTab::handleEvent(const sf::Event& event, Trie* &trie) {
             try {
                 int limit = std::stoi(limitWordText);
                 std::cout << "Set limit to " << limit << "\n";
-                trie->setLimit(limit);
+                trie->setLimitWord(limit);
                 limitWordField->setText(limitWordText);
                 limitWordField->userInput.clear();
             } catch (...) {
@@ -114,14 +103,4 @@ void SettingTab::update()
     limitWordField->update();
     addWordField->update();
     removeWordField->update();
-}
-
-void SettingTab::switchAlgorithm(AlgorithmType algorithm) {
-    currentAlgorithm = algorithm;
-    if (algorithm == AlgorithmType::Trie) {
-        std::cout << "Switched to Trie\n";
-    } else if (algorithm == AlgorithmType::DAWG) {
-        std::cout << "Switched to DAWG\n";
-    }
-    // Add more algorithms here if needed
 }
