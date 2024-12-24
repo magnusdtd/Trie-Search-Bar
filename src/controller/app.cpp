@@ -5,10 +5,11 @@ App::App() :
     searchBar(new SearchBar(129, 155)), 
     resultTab(new ResultTab(172, 305)), 
     settingTab(new SettingTab(982, 187, 65)),
-    trie(new Trie()) {
+    trie(new CompressedTrie())
+{
     std::cout << "Load data successfully!\n";
-    trie->readDataFromFile("./../data/words.txt");
-    trie->setLimit(100);
+    trie->readDataFromFile("./../data/merged_words.txt");
+    trie->setLimitWord(100);
 }
 
 App::~App() {

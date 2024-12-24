@@ -5,6 +5,7 @@
 #include "./../view/SearchBar.hpp"
 #include "./../view/ResultTab.hpp"
 #include "./../view/SettingTab.hpp"
+#include "./../view/Theme.hpp"
 #include <assert.h>
 
 class App {
@@ -19,7 +20,7 @@ private:
     void render();
 
     sf::RenderWindow window;
-    Trie *trie;
+    CompressedTrie *trie;
     SearchBar *searchBar;
     ResultTab *resultTab;
     SettingTab *settingTab;
