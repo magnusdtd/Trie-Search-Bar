@@ -6,7 +6,7 @@ ResultTab::ResultTab(double x, double y) : Base(), scrollOffset(0), isScrolling(
     suggestionText.setFont(font);
     suggestionText.setCharacterSize(24);
 
-    if (!texture.loadFromFile("./../assets/img/result-tab.png")) {
+    if (!texture.loadFromFile("./assets/img/result-tab.png")) {
         std::cout << "Can't load texture\n";
         exit(1);
     }
@@ -14,11 +14,11 @@ ResultTab::ResultTab(double x, double y) : Base(), scrollOffset(0), isScrolling(
     sprite.setPosition(position);
 
     // Load scroll bar textures
-    if (!scrollBarTexture.loadFromFile("./../assets/img/scroll-bar.png")) {
+    if (!scrollBarTexture.loadFromFile("./assets/img/scroll-bar.png")) {
         std::cout << "Can't load scroll bar texture\n";
         exit(1);
     }
-    if (!scrollBarHandleTexture.loadFromFile("./../assets/img/scroll-bar-handle.png")) {
+    if (!scrollBarHandleTexture.loadFromFile("./assets/img/scroll-bar-handle.png")) {
         std::cout << "Can't load scroll bar handle texture\n";
         exit(1);
     }

@@ -5,7 +5,7 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
       limitWordField(new TextField(x - 118, y + 188)),
       addWordField(new TextField(x - 118, y + 188 + 52)),
       removeWordField(new TextField(x - 118, y + 188 + 52 * 2)),
-      theme(new Theme("./../assets/img/theme.png", sf::Vector2f(x - 118 + 50, y + 188 + 52 * 3), sf::Vector2f(50.f, 50.f)))
+      theme(new Theme("./assets/img/theme.png", sf::Vector2f(x - 118 + 50, y + 188 + 52 * 3), sf::Vector2f(50.f, 50.f)))
 {
     position = sf::Vector2f(x - 379, y + 68);
 
@@ -13,7 +13,7 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
 
     isHide = true;
 
-    if (!texture.loadFromFile("./../assets/img/setting-tab.png")) {
+    if (!texture.loadFromFile("./assets/img/setting-tab.png")) {
         std::cout << "Can't load texture\n";
         exit(1);
     }
@@ -25,9 +25,9 @@ SettingTab::SettingTab(double x, double y, double sizeOfButton)
         isHide = !isHide;
     });
 
-    limitWordField->loadTextureFromFile("./../assets/img/text-box.png");
-    addWordField->loadTextureFromFile("./../assets/img/text-box.png");
-    removeWordField->loadTextureFromFile("./../assets/img/text-box.png");
+    limitWordField->loadTextureFromFile("./assets/img/text-box.png");
+    addWordField->loadTextureFromFile("./assets/img/text-box.png");
+    removeWordField->loadTextureFromFile("./assets/img/text-box.png");
     limitWordField->setDisBetSprTex(7, 2);
     addWordField->setDisBetSprTex(7, 2);
     removeWordField->setDisBetSprTex(7, 2);

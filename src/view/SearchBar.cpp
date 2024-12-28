@@ -1,7 +1,7 @@
 #include "SearchBar.hpp"
 
 SearchBar::SearchBar(double x, double y) : textField(new TextField(x, y)) {
-    textField->loadTextureFromFile("./../assets/img/search-bar.png");
+    textField->loadTextureFromFile("./assets/img/search-bar.png");
     textField->setExclusionArea(sf::FloatRect(982, 187, 65, 65));
     textField->setDisBetSprTex(150, 40);
     textField->setTextUpperBound(400.f);

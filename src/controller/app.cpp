@@ -8,7 +8,7 @@ App::App() :
     trie(new CompressedTrie())
 {
     std::cout << "Load data successfully!\n";
-    trie->readDataFromFile("./../data/merged_words.txt");
+    trie->readDataFromFile("./data/merged_words.txt");
     trie->setLimitWord(100);
 }
 

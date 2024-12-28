@@ -45,6 +45,12 @@ target_link_libraries(TrieSearchBar PRIVATE sfml-graphics sfml-window sfml-syste
 # Custom command to ocopy SFML DLLs after build
 add_custom_command(TARGET TrieSearchBar POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:TrieSearchBar>"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:TrieSearchBar>/assets"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:TrieSearchBar>/data"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${CMAKE_SOURCE_DIR}/SFML-2.6.2/bin" "$<TARGET_FILE_DIR:TrieSearchBar>"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_SOURCE_DIR}/assets" "$<TARGET_FILE_DIR:TrieSearchBar>/assets"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_SOURCE_DIR}/data" "$<TARGET_FILE_DIR:TrieSearchBar>/data"
 )
