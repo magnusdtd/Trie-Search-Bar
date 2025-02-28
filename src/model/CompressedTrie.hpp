@@ -8,6 +8,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <chrono>
+#include "LRUCache.hpp"
 
 class CompressedTrie {
     class Node {
@@ -25,6 +26,7 @@ class CompressedTrie {
     Node* root;
     int limitWord;
     std::unordered_map<std::string, int> userPreference;  // Track user behavior
+    LRUCache cache;  // LRU Cache for search results
 
     bool deleteString(Node* p, const std::string& s, int i);
 
@@ -35,19 +37,13 @@ class CompressedTrie {
 
 public:
 
-    CompressedTrie() : root(new Node()), limitWord(466550) {}
+    CompressedTrie() : root(new Node()), limitWord(466550), cache(100) {}
 
-    CompressedTrie(int limitWord) : root(new Node()), limitWord(limitWord) {}
+    CompressedTrie(int limitWord) : root(new Node()), limitWord(limitWord), cache(100) {}
 
     ~CompressedTrie() { demolish(root); }
 
-    void setLimitWord(int limitWord) { 
-        this->limitWord = limitWord; 
-    }
-
-    void getLimitWord() {
-        std::cout << "Limit word: " << limitWord << "\n"; 
-    }
+    void setLimitWord(int limitWord);
     
     void addString(const std::string& s);
 

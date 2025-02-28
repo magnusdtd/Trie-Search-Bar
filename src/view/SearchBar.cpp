@@ -34,8 +34,6 @@ void SearchBar::handleTextEntered(const sf::Event& event, CompressedTrie *&trie)
 void SearchBar::updateSuggestions(CompressedTrie *&trie) {
     if (userInput.empty()) {
         suggestions.clear();
-    } else if (cache.find(userInput) != cache.end()) {
-        suggestions = cache[userInput];
     } else {
 
         auto startTime = std::chrono::high_resolution_clock::now();
@@ -45,7 +43,6 @@ void SearchBar::updateSuggestions(CompressedTrie *&trie) {
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
         elapsedTime = duration.count();
 
-        cache[userInput] = suggestions;
     }
 }
 

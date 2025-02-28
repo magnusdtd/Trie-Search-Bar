@@ -25,7 +25,6 @@ private:
 
     TextField *textField;
     std::vector<std::string> suggestions;
-    std::unordered_map<std::string, std::vector<std::string>> cache;
     std::string userInput;
 
     double elapsedTime;

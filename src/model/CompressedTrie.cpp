@@ -1,17 +1,25 @@
 #include "CompressedTrie.hpp"
 
 bool CompressedTrie::deleteString(Node* p, const std::string& s, int i) {
-    if (i != (int)s.size()) {
-        char c = s[i];
-        bool isChildDeleted = deleteString(p->child[c], s, i + 1);
-        if (isChildDeleted) 
-            p->child.erase(c);
-    } else
-        p->exist--;
+    if (i == s.size()) {
+        if (p->exist > 0) {
+            p->exist--;
+            if (p->exist == 0 && p->child.empty()) {
+                delete p;
+                return true;
+            }
+        }
+        return false;
+    }
 
-    if (p != root) {
-        p->cnt--;
-        if (p->cnt == 0) {
+    char c = s[i];
+    if (p->child.find(c) == p->child.end())
+        return false;
+
+    bool shouldDeleteChild = deleteString(p->child[c], s, i + 1);
+    if (shouldDeleteChild) {
+        p->child.erase(c);
+        if (p->child.empty() && p->exist == 0 && p != root) {
             delete p;
             return true;
         }
@@ -46,8 +54,7 @@ std::vector<std::string> CompressedTrie::weightedBfs(Node* startNode, const std:
 
     q.push({startNode, prefix});
     while (!q.empty()) {
-        Node* current = q.front().first;
-        std::string str = q.front().second;
+        auto [current, str] = q.front();
         q.pop();
 
         if (!current)
@@ -119,7 +126,14 @@ std::vector<std::string> CompressedTrie::weightedBfs(Node* startNode, const std:
     return result;
 }
 
-void CompressedTrie::addString(const std::string& s) {
+void CompressedTrie::setLimitWord(int limitWord)
+{ 
+    this->limitWord = limitWord; 
+    cache.clear();
+}
+
+void CompressedTrie::addString(const std::string &s) {
+    cache.clear();  // Clear cache when adding a string
     Node* p = root;
     int i = 0;
     while (i < s.size()) {
@@ -162,6 +176,7 @@ void CompressedTrie::addString(const std::string& s) {
 }
 
 void CompressedTrie::deleteString(const std::string& s) {
+    cache.clear();  // Clear cache when deleting a string
     if (!findString(s))
         return;
     deleteString(root, s, 0);
@@ -189,6 +204,12 @@ bool CompressedTrie::findString(const std::string& s) {
 }
 
 std::vector<std::string> CompressedTrie::search(const std::string& prefix) {
+    // Check if the result is already in the cache
+    std::vector<std::string> cachedResult = cache.get(prefix);
+    if (!cachedResult.empty()) {
+        return cachedResult;
+    }
+
     Node* current = root;
     int i = 0;
     while (i < prefix.size()) {
@@ -206,10 +227,18 @@ std::vector<std::string> CompressedTrie::search(const std::string& prefix) {
             return {};
         current = child;
     }
-    return weightedBfs(current, prefix);
+    std::vector<std::string> result = weightedBfs(current, prefix);
+    cache.put(prefix, result);  // Store the result in the cache
+    return result;
 }
 
 std::vector<std::string> CompressedTrie::search(const std::string& prefix, long long &count_comparisons) {
+    // Check if the result is already in the cache
+    std::vector<std::string> cachedResult = cache.get(prefix);
+    if (!cachedResult.empty()) {
+        return cachedResult;
+    }
+
     Node* current = root;
     int i = 0;
     while (++count_comparisons && i < prefix.size()) {
@@ -227,7 +256,9 @@ std::vector<std::string> CompressedTrie::search(const std::string& prefix, long 
             return {};
         current = child;
     }
-    return weightedBfs(current, prefix, count_comparisons);
+    std::vector<std::string> result = weightedBfs(current, prefix, count_comparisons);
+    cache.put(prefix, result);  // Store the result in the cache
+    return result;
 }
 
 void CompressedTrie::readDataFromFile(const std::string &filePath) {

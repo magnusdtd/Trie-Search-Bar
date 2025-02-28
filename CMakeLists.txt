@@ -17,6 +17,8 @@ add_executable(TrieSearchBar
     src/main.cpp 
     src/model/CompressedTrie.hpp
     src/model/CompressedTrie.cpp
+    src/model/LRUCache.hpp
+    src/model/LRUCache.cpp
     src/view/base.hpp
     src/view/base.cpp
     src/view/Button.hpp

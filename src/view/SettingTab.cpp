@@ -74,7 +74,7 @@ void SettingTab::handleEvent(const sf::Event& event, CompressedTrie* &trie) {
             try {
                 int limit = std::stoi(limitWordText);
                 std::cout << "Set limit to " << limit << "\n";
-                trie->setLimitWord(limit);
+                trie->setLimitWord(limit + 1);
                 limitWordField->setText(limitWordText);
                 limitWordField->userInput.clear();
             } catch (...) {
